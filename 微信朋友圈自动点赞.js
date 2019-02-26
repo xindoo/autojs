@@ -60,7 +60,7 @@ function clickLike() {
     var defalutColor = -11048043;
 
     // 扫描出点赞评论按钮的位置，两个点的ARGB颜色为-11048043 
-    for(var y = 250; y < 1500; y++) {
+    for(var y = 250; y < 1920; y++) {
         var color = images.pixel(image, x, y);
 
         // 背景色，跳过
