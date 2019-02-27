@@ -60,6 +60,7 @@ function clickLike() {
     var defalutColor = -11048043;
 
     // 扫描出点赞评论按钮的位置，两个点的ARGB颜色为-11048043 
+    var isSucceed = true;
     for(var y = 250; y < 1920; y++) {
         var color = images.pixel(image, x, y);
 
@@ -73,15 +74,16 @@ function clickLike() {
             var clickimage = captureScreen();
 
             // 如果这个点的颜色是-1，表示这条朋友圈已经点过赞了，返回点赞失败false
-            if (images.pixel(clickimage, 465, y) == -1) {
-                return false;
-                break;
+            if (images.pixel(clickimage, 465, y) != -1) {
+                // 点赞
+                click(523, y);
+            } else {
+                isSucceed = false;
             }
-            click(523, y)
             sleep(2000);
             // 往下滑动到下一条朋友圈的位置  
             swipe(550, y+200, 550, 150, 200);
-            return true;
+            return isSucceed;
         }
     }
 }
@@ -93,13 +95,18 @@ function start(){
     // toast("hello world");
     enterWechatMoment();
     prepare();
+    var cnt = 0;
     while(true) {
         // 如果是false，表示已经点到上次点赞的位置了，结束
         if (clickLike() == false) {
+            cnt++;
+        }
+        if (cnt > 2) {
             break;
         }
     }
     // 返回微信主界面
     click(50,140);
+    exit();
 }
 start();
