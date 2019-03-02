@@ -37,11 +37,11 @@ function prepare() {
     click(500, 150); 
 
     // 等2s 微信朋友圈更新完成 
-    sleep(2000);
+    sleep(3000);
 
     // 向下滑至第一条朋友圈 
     swipe(550, 1200, 550, 200, 200);
-    
+
     if(!requestScreenCapture()){
         tLog("请求截图失败");
         exit();
@@ -94,19 +94,23 @@ function clickLike() {
 function start(){
     //注册音量下按下退出脚本监听
     registEvent();
-    // toast("hello world");
+    // 确保进入微信朋友圈
     enterWechatMoment();
     prepare();
+    var retry = 3;
     var cnt = 0;
-    while(true) {
-        // 如果是false，表示已经点到上次点赞的位置了，结束
+    // 连续失败三次就退出  
+    while(retry > 0) {
+        // 如果是false，表示已经点过赞了 
         if (clickLike() == false) {
+            retry--;
+        } else {
+            retry = 3;
             cnt++;
         }
-        if (cnt > 2) {
-            break;
-        }
     }
+    
+    toast("本次总共点赞" + cnt + "条");
     // 返回微信主界面
     click(50,140);
     exit();
