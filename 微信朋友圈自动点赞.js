@@ -41,11 +41,13 @@ function prepare() {
 
     // 向下滑至第一条朋友圈 
     swipe(550, 1200, 550, 200, 200);
-
+    
     if(!requestScreenCapture()){
         tLog("请求截图失败");
         exit();
     }
+    var image = captureScreen();
+    sleep(2000);
 }
 
 function clickLike() {
