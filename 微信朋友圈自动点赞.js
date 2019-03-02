@@ -25,7 +25,7 @@ function registEvent() {
     events.observeKey();
     //监听音量上键按下
     events.onKeyDown("volume_down", function(event){
-        tLog("脚本手动退出");
+        toast("脚本手动退出");
         exit();
     });
 }
