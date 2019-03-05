@@ -51,28 +51,29 @@ function prepare() {
 }
 
 function clickLike() {
-    if(!requestScreenCapture()){
-        tLog("请求截图失败");
-        exit();
-    }
     sleep(1000);
     var image = captureScreen();
     var arrs = [-1];
     var x = 991;
-    var defalutColor = -11048043;
+    var buttonColor = -11048043;
+
+    // 函数返回此次点赞是否成功，如果没找到点赞按钮或者已点赞返回false，做法是否继续的判断
+    var isSucceed = true;
 
     // 扫描出点赞评论按钮的位置，两个点的ARGB颜色为-11048043 
-    var isSucceed = true;
     for(var y = 250; y < 1920; y++) {
         var color = images.pixel(image, x, y);
 
-        // 背景色，跳过
+        // 白色 背景色，跳过
         if (color == -1) {
             continue;
         }
-        if (color == defalutColor) {
+        if (color == buttonColor) {
+            // 按下评论点赞按钮  
             click(x, y)
             sleep(1000);
+
+            // 重新截图，找到点赞心形按钮的位置
             var clickimage = captureScreen();
 
             // 如果这个点的颜色是-1，表示这条朋友圈已经点过赞了，返回点赞失败false
@@ -88,15 +89,21 @@ function clickLike() {
             return isSucceed;
         }
     }
+
+    // 如果执行到这，可能是某条朋友圈评论太多，一屏里没有点赞评论按钮，就滑动大半屏再试一次
+    swipe(550, 1600, 550, 150, 200);
+    return false;
 }
 
 //程序主入口
 function start(){
-    //注册音量下按下退出脚本监听
+    //注册音量键上被按下时退出脚本的执行  
     registEvent();
+
     // 确保进入微信朋友圈
     enterWechatMoment();
     prepare();
+    
     var retry = 3;
     var cnt = 0;
     // 连续失败三次就退出  
