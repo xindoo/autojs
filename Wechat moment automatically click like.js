@@ -96,7 +96,7 @@ function clickLike() {
 }
 
 //程序主入口
-function start(){
+function start(){ 
     //注册音量键上被按下时退出脚本的执行  
     registEvent();
 
