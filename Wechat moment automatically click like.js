@@ -77,7 +77,7 @@ function clickLike() {
             var clickimage = captureScreen();
 
             // 如果这个点的颜色是-1，表示这条朋友圈已经点过赞了，返回点赞失败false
-            if (images.pixel(clickimage, 465, y) != -1) {
+            if (images.pixel(clickimage, 496, y) != -1) {
                 // 点赞
                 click(523, y);
             } else {
